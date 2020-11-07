@@ -17,12 +17,16 @@ pipeline {
     stage('Deploy Image') {
       steps{
         script {
-          withCredentials([usernamePassword(credentialsId: 'dockerhub_id', passwordVariable: 'pass', usernameVariable: 'user')]) {
-            sh '''
-                  echo "$pass" | docker login --username $user --password-stdin
-                  docker push ${registry}:${VERSION}
-               '''
+          //withCredentials([usernamePassword(credentialsId: 'dockerhub_id', passwordVariable: 'pass', usernameVariable: 'user')]) {
+            //sh '''
+            //      echo "$pass" | docker login --username $user --password-stdin
+            //      docker push ${registry}:${VERSION}
+            //   '''
+          //}
+          docker.withRegistry( '', registryCredential ) {
+            dockerImage.push()
           }
+
         }
       }
     }
