@@ -2,23 +2,22 @@ pipeline {
   agent any
   environment {
     registry = "isieiam/se_crawler"
-    registryCredential = 'dockerhub_id'
-    dockerImage = ''
     VERSION = '1.0'
   }
   stages {
     stage('Building image') {
       steps{
-        script {
-          dockerImage = docker.build registry + ":${VERSION}"
-        }
+        sh "docker build -t ${registry}:${VERSION} ."
       }
     }
     stage('Deploy Image') {
       steps{
         script {
-          docker.withRegistry( '', registryCredential ) {
-            dockerImage.push()
+          withCredentials([usernamePassword(credentialsId: 'dockerhub_id', passwordVariable: 'pass', usernameVariable: 'user')]) {
+            sh '''
+                  $pass | docker login --username $user --password-stdin
+                  docker push ${registry}:${VERSION}
+               '''
           }
         }
       }
