@@ -8,8 +8,10 @@ pipeline {
   stages {
     stage('Building image') {
       steps{
-        //sh "docker build -t ${registry}:${VERSION} ."
-        dockerImage = docker.build registry + ":$VERSION" 
+        script { 
+          //sh "docker build -t ${registry}:${VERSION} ."
+          dockerImage = docker.build registry + ":$VERSION" 
+        }
       }
     }
     stage('Deploy Image') {
