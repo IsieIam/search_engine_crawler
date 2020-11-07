@@ -15,7 +15,7 @@ pipeline {
         script {
           withCredentials([usernamePassword(credentialsId: 'dockerhub_id', passwordVariable: 'pass', usernameVariable: 'user')]) {
             sh '''
-                  $pass > docker login --username $user --password-stdin
+                  echo "$pass" | docker login --username $user --password-stdin
                   docker push ${registry}:${VERSION}
                '''
           }
