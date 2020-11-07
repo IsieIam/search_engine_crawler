@@ -4,6 +4,7 @@ pipeline {
     registry = "isieiam/se_crawler"
     VERSION = '1.0'
     dockerImage = ''
+    registryCredential = 'dockerhub_id'
   }
   stages {
     stage('Building image') {
