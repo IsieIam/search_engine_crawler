@@ -3,11 +3,13 @@ pipeline {
   environment {
     registry = "isieiam/se_crawler"
     VERSION = '1.0'
+    dockerImage = ''
   }
   stages {
     stage('Building image') {
       steps{
-        sh "docker build -t ${registry}:${VERSION} ."
+        //sh "docker build -t ${registry}:${VERSION} ."
+        dockerImage = docker.build registry + ":$VERSION" 
       }
     }
     stage('Deploy Image') {
